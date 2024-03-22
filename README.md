@@ -69,28 +69,28 @@ You can restructure the initial code, as long as you have implementations for a 
 * PDF writeup with answers to the questions.
 
 
-### Part 1: Getting familiar with FHE parameters
+### Part 1: Getting familiar with FHE parameters (10%)
 
-> **Task 1.1**: Sample public and private keys are given to you in the repository. For the sample key parameters, how many slots are supported in a single ciphertext? How big is the plaintext modulus? How big is one ciphertext?
+> **Task 1.1**: Sample public and private keys are given to you in the repository. For the sample key parameters, how many slots are supported in a single ciphertext? How big is the plaintext modulus? How big is one ciphertext? (5%)
 
-> **Task 1.2**: Generate one rotation key for rotation of size 1 and write it out as a file to the same directory.
+> **Task 1.2**: Generate one rotation key for rotation of size 1 and write it out as a file to the same directory. (5%)
 
 > **Task 1.3 (Optional)**: The sample parameters are not necessarily optimized. You can feel free to generate your own BFV parameters, and use them for the rest of the systems implementation. If you choose to optimize for the FHE parameters, then explain what are the FHE parameters that you are using. 
 
 
-### Part 2: Naive design for PIR with linear-sized queries 
+### Part 2: Naive design for PIR with linear-sized queries (40%)
 
 In this initial (warm-up) design, you will implement a naive PIR design that uses linear-sized queries on a database of size 1048576. The idea is very simple. First, the server should arrange database into a table with of 1048576 rows. Then, the client should generate a linear-sized query that is a one-hot encoding of the desired row `i`. The query vector `q` should be 0 everywhere except at location `i`: `q[j] = 0` if `j != i`, otherwise `q[j] = 1`. Therefore, the server side encrypted computation is a dot product between the database and the encrypted query. 
 
 You can simplify key management in your implementation by assuming that the client and the server are able to access the appropriate keys by loading them from `keys/`. *The PIR server should not see the private key!!*
 
-> **Task 2.1**: Implement the naive design.
+> **Task 2.1**: Implement the naive design. (25%)
 
-> **Task 2.2**: How many ciphertexts do you need to encode the query? How many ciphertexts do you need for the response?
+> **Task 2.2**: How many ciphertexts do you need to encode the query? How many ciphertexts do you need for the response? (5%)
 
-> **Task 2.3**: Report the runtime for a single query. Present a breakdown of the runtime in terms of 1. client compute cost in milliseconds 2. server compute cost in milliseconds 3. communication cost in bytes. Remember to describe your experiment setup (what machine you are using).
+> **Task 2.3**: Report the runtime for a single query. Present a breakdown of the runtime in terms of 1. client compute cost in milliseconds 2. server compute cost in milliseconds 3. communication cost in bytes. Remember to describe your experiment setup (what machine you are using). (10%)
 
-### Part 3: Communication-efficient PIR with sublinear-sized queries
+### Part 3: Communication-efficient PIR with sublinear-sized queries (50%)
 
 Linear-sized queries are extremely inefficient. It is possible to significantly improve upon the communication overhead by restructuring the database. For example, a large database in the previous part can be re-structured as a 2D matrix that is 1024x1024. Instead of sending a linear-sized query, one can send an encrypted one-hot encoding query vector that is of length 1024, and retrieve an entire column of the database via matrix-vector multiplication. The client can then select the correct value out of the 1024 values. 
 
@@ -98,9 +98,9 @@ For example, assume that the database is organized row-wise in the matrix: `[[0,
 
 *Note that the 2D matrix does not necessarily have to be square. In your implementation, think about what matrix sizes make sense given your FHE key parameters.*
 
-> **Task 3.1**: Implement and explain your sublinear query design in BFV. What is the FHE computation that you need to execute? Explain your algorithm and how you pack the client's query in BFV. 
+> **Task 3.1**: Implement and explain your sublinear query design in BFV. What is the FHE computation that you need to execute? Explain your algorithm and how you pack the client's query in BFV. (35%)
 
-> **Task 3.2**: How many ciphertexts do you need to encode the query? How many ciphertexts do you need for the response?
+> **Task 3.2**: How many ciphertexts do you need to encode the query? How many ciphertexts do you need for the response? (5%)
 
-> **Task 3.3**: Report the runtime for a single query. Present a breakdown of the runtime in terms of communication cost and compute cost, similar as Task 2.3. 
+> **Task 3.3**: Report the runtime for a single query. Present a breakdown of the runtime in terms of communication cost and compute cost, similar as Task 2.3. (10%)
 
