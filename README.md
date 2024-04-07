@@ -94,7 +94,7 @@ You can simplify key management in your implementation by assuming that the clie
 
 Linear-sized queries are extremely inefficient. It is possible to significantly improve upon the communication overhead by restructuring the database. For example, a large database in the previous part can be re-structured as a 2D matrix that is 1024x1024. Instead of sending a linear-sized query, one can send an encrypted one-hot encoding query vector that is of length 1024, and retrieve an entire column of the database via matrix-vector multiplication. The client can then select the correct value out of the 1024 values. 
 
-For example, assume that the database is organized row-wise in the matrix: `[[0, 1, 2, ..., 1023], [1024, 1025, 1026, ...], ... ]`. A query for index `1025` should be mapped to a query `(1, 2)`. Therefore, the query should retrieve column 2 via a matrix-vector multiplication. The client receives `[2, 1026, 2050, ...]`, and returns the second value which is `1026`.
+For example, assume that the database is organized row-wise in the matrix: `[[0, 1, 2, ..., 1023], [1024, 1025, 1026, ...], ... ]`. A query for index `1026` should be mapped to a query `(1, 2)`. Therefore, the query should retrieve column 2 via a matrix-vector multiplication. The client receives `[2, 1026, 2050, ...]`, and returns the second value which is `1026`.
 
 *Note that the 2D matrix does not necessarily have to be square. In your implementation, think about what matrix sizes make sense given your FHE key parameters.*
 
