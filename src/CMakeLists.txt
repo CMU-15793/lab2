@@ -1,5 +1,5 @@
 foreach(_target
-  pir_client_template pir_server_template)
+  pir_client_template pir_server_template test)
   add_executable(${_target} "${_target}.cc")
   target_link_libraries(${_target}
     hw_grpc_proto
